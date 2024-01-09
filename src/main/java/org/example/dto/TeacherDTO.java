@@ -1,6 +1,10 @@
 package org.example.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,8 +18,11 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TeacherDTO {
 
+    @JsonIgnore
     private Long id;
 
     private String firstName;
@@ -32,6 +39,7 @@ public class TeacherDTO {
 
     private EducationLevel educationLevel;
 
+    @JsonManagedReference(value = "teacher-address-reference")
     private AddressDTO address;
 
 }

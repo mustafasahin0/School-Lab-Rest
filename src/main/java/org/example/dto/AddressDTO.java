@@ -1,6 +1,7 @@
 package org.example.dto;
 
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,8 +12,11 @@ import org.example.enums.AddressType;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AddressDTO {
 
+    @JsonIgnore
     private Long id;
 
     private String street;
@@ -23,10 +27,13 @@ public class AddressDTO {
 
     private AddressType addressType;
 
+    @JsonBackReference(value = "student-address-reference")
     private StudentDTO student;
 
+    @JsonBackReference(value = "parent-address-reference")
     private ParentDTO parent;
 
+    @JsonBackReference(value = "teacher-address-reference")
     private TeacherDTO teacher;
 
     private Integer currentTemperature;
