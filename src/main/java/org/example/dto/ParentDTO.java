@@ -1,10 +1,7 @@
 package org.example.dto;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +28,7 @@ public class ParentDTO {
 
     private String email;
     private String username;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String password;
 
     private LocalDate birthday;

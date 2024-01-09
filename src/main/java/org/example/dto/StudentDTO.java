@@ -29,7 +29,7 @@ public class StudentDTO {
     private String email;
     private String username;
 
-    @JsonDeserialize
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String password;
 
     private LocalDate birthday;
