@@ -67,6 +67,31 @@ public class SchoolController {
 
     }
 
+    @PostMapping("/address/{id}")
+    public ResponseEntity<ResponseWrapper> updateAddressById(@PathVariable("id") Long id, @RequestBody AddressDTO addressDTO) {
+        AddressDTO currentAddressDTO = null;
+
+        try {
+            currentAddressDTO = addressService.findById(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        Long currentId = currentAddressDTO.getId();
+
+        AddressDTO updatedAddressDTO = addressDTO;
+        updatedAddressDTO.setId(currentId);
+
+        try {
+            addressService.update(updatedAddressDTO);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return ResponseEntity.ok(new ResponseWrapper("Address is successfully updated"));
+
+    }
+
     @GetMapping("/address-weather/{id}")
     public ResponseEntity<ResponseWrapper> getAddressWithWeather(@PathVariable("id") Long id) throws Exception {
 
