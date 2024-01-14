@@ -67,7 +67,7 @@ public class SchoolController {
 
     }
 
-    @PostMapping("/address/{id}")
+    @PutMapping("/address/{id}")
     public ResponseEntity<ResponseWrapper> updateAddressById(@PathVariable("id") Long id, @RequestBody AddressDTO addressDTO) {
         AddressDTO currentAddressDTO = null;
 
