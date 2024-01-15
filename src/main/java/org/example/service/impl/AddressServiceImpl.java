@@ -7,7 +7,9 @@ import org.example.dto.Weather;
 import org.example.entity.Address;
 import org.example.repository.AddressRepository;
 import org.example.service.AddressService;
+import org.example.service.ParentService;
 import org.example.util.MapperUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 @Service
 public class AddressServiceImpl implements AddressService {
 
+    @Value("${access_key}")
+    private String accessKey;
     private final AddressRepository addressRepository;
     private final MapperUtil mapperUtil;
     private final WeatherClient weatherClient;
@@ -47,7 +51,12 @@ public class AddressServiceImpl implements AddressService {
     }
 
     private Integer retrieveTemperatureByCity(String city) {
-        Weather weather = weatherClient.getWeather("ab865e459e387ff171adb5d77e7e958e", city);
+        Weather weather = weatherClient.getWeather(accessKey, city);
+
+        if (weather == null || weather.getCurrent() == null) {
+            return null;
+        }
+
         return weather.getCurrent().getTemperature();
     }
 
