@@ -46,11 +46,11 @@ public class SchoolController {
     @GetMapping("/parents")
     public ResponseEntity<ResponseWrapper> getAllParents() {
 
-        ResponseWrapper responseWrapper = new ResponseWrapper(true, "Parents are successfully retrieved", HttpStatus.ACCEPTED.value(), parentService.findAll() );
+        ResponseWrapper responseWrapper = new ResponseWrapper(true, "Parents are successfully retrieved", HttpStatus.ACCEPTED.value(), parentService.findAll());
 
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)
-                .header("Parent","Returned")
+                .header("Parent", "Returned")
                 .body(responseWrapper);
     }
 
@@ -63,7 +63,7 @@ public class SchoolController {
             throw new RuntimeException(e);
         }
 
-        return ResponseEntity.ok(new ResponseWrapper("Address is successfully retrieved", addressDTO ));
+        return ResponseEntity.ok(new ResponseWrapper("Address is successfully retrieved", addressDTO));
 
     }
 
@@ -97,7 +97,18 @@ public class SchoolController {
 
         AddressDTO addressDTO = addressService.findById(id);
 
-        return ResponseEntity.ok(new ResponseWrapper("Address with temperature is successfully retrieved", addressDTO ));
+        return ResponseEntity.ok(new ResponseWrapper("Address with temperature is successfully retrieved", addressDTO));
 
+    }
+
+    @PostMapping("/teachers")
+    public ResponseEntity<ResponseWrapper> createTeacher(@RequestBody TeacherDTO teacherDTO) {
+        TeacherDTO teacher = teacherService.createTeacher(teacherDTO);
+
+        ResponseWrapper responseWrapper = new ResponseWrapper(true, "Teacher is created", HttpStatus.CREATED.value(), teacher);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .header("teacherId", String.valueOf(teacher.getId()))
+                .body(responseWrapper);
     }
 }
