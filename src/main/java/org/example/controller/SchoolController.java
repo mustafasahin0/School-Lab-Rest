@@ -105,7 +105,7 @@ public class SchoolController {
     public ResponseEntity<ResponseWrapper> createTeacher(@RequestBody TeacherDTO teacherDTO) {
         TeacherDTO teacher = teacherService.createTeacher(teacherDTO);
 
-        ResponseWrapper responseWrapper = new ResponseWrapper(true, "Teacher is created", HttpStatus.CREATED.value(), teacher);
+        ResponseWrapper responseWrapper = new ResponseWrapper(true, "Teacher is created.", HttpStatus.CREATED.value(), teacher);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header("teacherId", String.valueOf(teacher.getId()))
