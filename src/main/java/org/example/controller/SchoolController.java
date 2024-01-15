@@ -96,9 +96,6 @@ public class SchoolController {
     public ResponseEntity<ResponseWrapper> getAddressWithWeather(@PathVariable("id") Long id) throws Exception {
 
         AddressDTO addressDTO = addressService.findById(id);
-        Weather weather = weatherClient.getWeather("ab865e459e387ff171adb5d77e7e958e", addressDTO.getCity());
-
-        addressDTO.setTemperature(weather.getCurrent().getTemperature());
 
         return ResponseEntity.ok(new ResponseWrapper("Address with temperature is successfully retrieved", addressDTO ));
 

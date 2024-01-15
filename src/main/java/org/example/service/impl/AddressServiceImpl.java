@@ -1,7 +1,9 @@
 package org.example.service.impl;
 
 
+import org.example.client.WeatherClient;
 import org.example.dto.AddressDTO;
+import org.example.dto.Weather;
 import org.example.entity.Address;
 import org.example.repository.AddressRepository;
 import org.example.service.AddressService;
@@ -17,10 +19,12 @@ public class AddressServiceImpl implements AddressService {
 
     private final AddressRepository addressRepository;
     private final MapperUtil mapperUtil;
+    private final WeatherClient weatherClient;
 
-    public AddressServiceImpl(AddressRepository addressRepository, MapperUtil mapperUtil) {
+    public AddressServiceImpl(AddressRepository addressRepository, MapperUtil mapperUtil, WeatherClient weatherClient) {
         this.addressRepository = addressRepository;
         this.mapperUtil = mapperUtil;
+        this.weatherClient = weatherClient;
     }
 
     @Override
@@ -39,7 +43,12 @@ public class AddressServiceImpl implements AddressService {
         AddressDTO addressDTO = mapperUtil.convert(foundAddress, new AddressDTO());
         addressDTO.setCurrentTemperature(retrieveTemperatureByCity(addressDTO.getCity()));
 
-        return mapperUtil.convert(foundAddress, new AddressDTO());
+        return addressDTO;
+    }
+
+    private Integer retrieveTemperatureByCity(String city) {
+        Weather weather = weatherClient.getWeather("ab865e459e387ff171adb5d77e7e958e", city);
+        return weather.getCurrent().getTemperature();
     }
 
     @Override
