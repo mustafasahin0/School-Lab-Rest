@@ -3,6 +3,7 @@ package org.example.service.impl;
 
 import org.example.dto.ParentDTO;
 import org.example.entity.Parent;
+import org.example.exception.NotFoundException;
 import org.example.repository.ParentRepository;
 import org.example.service.ParentService;
 import org.example.util.MapperUtil;
@@ -33,7 +34,7 @@ public class ParentServiceImpl implements ParentService {
     @Override
     public ParentDTO findById(Long id) throws Exception {
         Parent foundParent = parentRepository.findById(id)
-                .orElseThrow(() -> new Exception("No Parent Found!"));
+                .orElseThrow(() -> new NotFoundException("No Parent Found!"));
         return mapperUtil.convert(foundParent, new ParentDTO());
     }
 

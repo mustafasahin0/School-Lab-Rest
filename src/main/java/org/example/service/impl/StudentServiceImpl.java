@@ -3,6 +3,7 @@ package org.example.service.impl;
 
 import org.example.dto.StudentDTO;
 import org.example.entity.Student;
+import org.example.exception.NotFoundException;
 import org.example.repository.StudentRepository;
 import org.example.service.StudentService;
 import org.example.util.MapperUtil;
@@ -33,7 +34,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentDTO findById(Long id) throws Exception {
         Student foundStudent = studentRepository.findById(id)
-                .orElseThrow(() -> new Exception("No Student Found!"));
+                .orElseThrow(() -> new NotFoundException("No Student Found!"));
         return mapperUtil.convert(foundStudent, new StudentDTO());
     }
 

@@ -3,6 +3,7 @@ package org.example.service.impl;
 
 import org.example.dto.ClassDTO;
 import org.example.entity.Class;
+import org.example.exception.NotFoundException;
 import org.example.repository.ClassRepository;
 import org.example.service.ClassService;
 import org.example.util.MapperUtil;
@@ -33,7 +34,7 @@ public class ClassServiceImpl implements ClassService {
     @Override
     public ClassDTO findById(Long id) throws Exception {
         Class foundClass = classRepository.findById(id)
-                .orElseThrow(() -> new Exception("No Class Found!"));
+                .orElseThrow(() -> new NotFoundException("No Class Found!"));
         return mapperUtil.convert(foundClass, new ClassDTO());
     }
 

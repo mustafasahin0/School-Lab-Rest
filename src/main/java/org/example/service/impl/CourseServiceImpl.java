@@ -2,6 +2,7 @@ package org.example.service.impl;
 
 import org.example.dto.CourseDTO;
 import org.example.entity.Course;
+import org.example.exception.NotFoundException;
 import org.example.repository.CourseRepository;
 import org.example.service.CourseService;
 import org.example.util.MapperUtil;
@@ -32,7 +33,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseDTO findById(Long id) throws Exception {
         Course foundCourse = courseRepository.findById(id)
-                .orElseThrow(() -> new Exception("No Course Found!"));
+                .orElseThrow(() -> new NotFoundException("No Course Found!"));
         return mapperUtil.convert(foundCourse, new CourseDTO());
     }
 
