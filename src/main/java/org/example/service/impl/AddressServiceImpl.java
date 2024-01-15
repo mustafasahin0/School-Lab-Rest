@@ -35,6 +35,10 @@ public class AddressServiceImpl implements AddressService {
     public AddressDTO findById(Long id) throws Exception {
         Address foundAddress = addressRepository.findById(id)
                 .orElseThrow(() -> new Exception("No Address Found!"));
+
+        AddressDTO addressDTO = mapperUtil.convert(foundAddress, new AddressDTO());
+        addressDTO.setCurrentTemperature(retrieveTemperatureByCity(addressDTO.getCity()));
+
         return mapperUtil.convert(foundAddress, new AddressDTO());
     }
 
