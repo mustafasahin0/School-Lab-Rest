@@ -5,6 +5,7 @@ import org.example.client.WeatherClient;
 import org.example.dto.AddressDTO;
 import org.example.dto.Weather;
 import org.example.entity.Address;
+import org.example.exception.NotFoundException;
 import org.example.repository.AddressRepository;
 import org.example.service.AddressService;
 import org.example.service.ParentService;
@@ -42,7 +43,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public AddressDTO findById(Long id) throws Exception {
         Address foundAddress = addressRepository.findById(id)
-                .orElseThrow(() -> new Exception("No Address Found!"));
+                .orElseThrow(() -> new NotFoundException("No Address Found!"));
 
         AddressDTO addressDTO = mapperUtil.convert(foundAddress, new AddressDTO());
         addressDTO.setCurrentTemperature(retrieveTemperatureByCity(addressDTO.getCity()));
@@ -64,7 +65,7 @@ public class AddressServiceImpl implements AddressService {
     public AddressDTO update(AddressDTO addressDTO) throws Exception {
 
         addressRepository.findById(addressDTO.getId())
-                .orElseThrow(() -> new Exception("No Address Found!"));
+                .orElseThrow(() -> new NotFoundException("No Address Found!"));
 
         Address addressToSave = mapperUtil.convert(addressDTO, new Address());
 
