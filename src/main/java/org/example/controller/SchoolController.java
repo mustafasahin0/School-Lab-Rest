@@ -93,7 +93,7 @@ public class SchoolController {
 
     }
 
-    @GetMapping("/address-weather/{id}")
+    @GetMapping("/address-client/{id}")
     public ResponseEntity<ResponseWrapper> getAddressWithWeather(@PathVariable("id") Long id) throws Exception {
 
         AddressDTO addressDTO = addressService.findById(id);

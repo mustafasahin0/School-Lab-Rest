@@ -1,14 +1,15 @@
 package org.example.service.impl;
 
 
+import org.example.client.CountryClient;
 import org.example.client.WeatherClient;
 import org.example.dto.AddressDTO;
 import org.example.dto.Weather;
+import org.example.dto.country.Country;
 import org.example.entity.Address;
 import org.example.exception.NotFoundException;
 import org.example.repository.AddressRepository;
 import org.example.service.AddressService;
-import org.example.service.ParentService;
 import org.example.util.MapperUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,11 +26,13 @@ public class AddressServiceImpl implements AddressService {
     private final AddressRepository addressRepository;
     private final MapperUtil mapperUtil;
     private final WeatherClient weatherClient;
+    private final CountryClient countryClient;
 
-    public AddressServiceImpl(AddressRepository addressRepository, MapperUtil mapperUtil, WeatherClient weatherClient) {
+    public AddressServiceImpl(AddressRepository addressRepository, MapperUtil mapperUtil, WeatherClient weatherClient, CountryClient countryClient) {
         this.addressRepository = addressRepository;
         this.mapperUtil = mapperUtil;
         this.weatherClient = weatherClient;
+        this.countryClient = countryClient;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class AddressServiceImpl implements AddressService {
 
         AddressDTO addressDTO = mapperUtil.convert(foundAddress, new AddressDTO());
         addressDTO.setCurrentTemperature(retrieveTemperatureByCity(addressDTO.getCity()));
-
+        addressDTO.setFlag(countryFlag(addressDTO.getCountry()));
         return addressDTO;
     }
 
@@ -59,6 +62,16 @@ public class AddressServiceImpl implements AddressService {
         }
 
         return weather.getCurrent().getTemperature();
+    }
+
+    private String countryFlag(String countryName) {
+        List<Country> countryList = countryClient.getCountry(countryName);
+
+        if (countryList.get(0) == null || countryList.get(0).getFlags() == null) {
+            return null;
+        }
+
+        return countryList.get(0).getFlags().getPng();
     }
 
     @Override

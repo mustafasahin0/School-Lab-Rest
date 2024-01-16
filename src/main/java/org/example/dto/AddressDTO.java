@@ -59,4 +59,5 @@ public class AddressDTO {
     private TeacherDTO teacher;
 
     private Integer currentTemperature;
+    private String flagLink;
 }
